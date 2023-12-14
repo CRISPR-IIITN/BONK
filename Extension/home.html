@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet Problem Report</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<style>
+    #floating-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #0073e6;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      text-align: center;
+      cursor: pointer;
+    }
+    .button-top{
+        width:80%;
+        margin-right:10%;
+        margin-left:10%;
+        margin-bottom:3%;
+    }
+</style>
+
+<body>
+    <header>
+        <h1>Internet Problem Report</h1>
+    </header>
+
+    <nav>
+        <a href="#top">Back to Top</a>
+    </nav>
+
+    <main>
+        <section>
+            <!-- Add a "Speed Test" button -->
+            <button class="button-top" id="speedTestButton">Speed Test</button>
+            
+            <!-- Add a "CRISPR Server" button -->
+            <button class="button-top" id="crisprServerButton">CRISPR Server</button>
+        </section>
+
+        <section class="form-section">
+            <h2>Report Internet Problem</h2>
+            <form id="internetProblemForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="problemDescription">Problem Description:</label>
+                <textarea id="problemDescription" name="problemDescription" rows="4" required></textarea>
+
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2023 Internet Problem Report
+    </footer>
+
+    <button id="floating-button">Server</button>
+    <script src="popup.js"></script>
+    <script src="background.js"></script>
+    <script src="content.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+    "manifest_version": 3,
+    "name": "Tab Manager for Chrome Dev Docs",
+    "version": "1.0",
+    "icons": {
+    },
+    "description": "Base Level Extension",
+    "action": {
+      "default_popup": "home.html",
+      "default_icon": "Icon.png",
+      "background": {
+        "service_worker": "background.js"
+    }
+    },
+    "permissions": ["activeTab", "tabs"],
+    "content_scripts": [
+        {
+          "matches": ["https://pcmag.speedtestcustom.com/"],
+          "js": ["content.js"]
+        },
+        {
+            "matches": ["https://192.168.55.253:1003/keepalive*"],
+            "js": ["contentscript.js"]
+          }
+      ]
+  }
