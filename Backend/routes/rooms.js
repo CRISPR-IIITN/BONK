@@ -30,6 +30,8 @@ router.get('/:id', async (req, res) => {
     const requestedRoom = parseInt(req.params.id);
     let rooms;
 
+    if (typeof requestedRoom !== 'number') return res.status(400).send('id must be a number.');
+
     // Send all rooms of that floor as array
     if (requestedRoom <= 10) {
       const allRooms = await Room.find();
@@ -96,6 +98,11 @@ router.post('/', async (req, res) => {
       return res.status(400).send('Invalid room number.');
   }
 
+  // Validate input types
+  if (typeof upload !== 'number' || typeof download !== 'number' || typeof ping !== 'number') {
+    return res.status(400).send('Upload, download, and ping must be numbers.');
+  }
+
   // Create a new Room document
   const newRoom = new Room({
       room: room,
@@ -159,6 +166,11 @@ router.put('/:room', async (req, res) => {
 
   if (missingParams.length) {
       return res.status(400).send(`Missing required parameter(s): ${missingParams.join(', ')}`);
+  }
+
+  // Validate input types
+  if (typeof upload !== 'number' || typeof download !== 'number' || typeof ping !== 'number') {
+    return res.status(400).send('Upload, download, and ping must be numbers.');
   }
 
   // Find the room and update it
