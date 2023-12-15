@@ -14,3 +14,7 @@ The UI has a floor plan which is mapped to the color of how good or poor the con
 - [ ] Setup config files and env variables
 - [ ] Configure production build
 
+### Things for future versions
+
+- [ ] Notification panel
+- [ ] LDAP or OAuth authentication with Google Authenticator (app)
