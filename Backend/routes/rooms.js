@@ -17,27 +17,35 @@ const schema = new mongoose.Schema({
 const Room = mongoose.model('Room', schema);
 
 router.get('/', async (req, res) => {
-    const rooms = await Room.find();
-    res.send(rooms);
+  try {
+      const rooms = await Room.find();
+      res.send(rooms);
+  } catch (err) {
+      res.status(500).send(err.message);
+  }
 });
 
 router.get('/:id', async (req, res) => {
-  const requestedRoom = parseInt(req.params.id);
-  let rooms;
+  try {
+    const requestedRoom = parseInt(req.params.id);
+    let rooms;
 
-  // Send all rooms of that floor as array
-  if (requestedRoom <= 10) {
-    const allRooms = await Room.find();
-    rooms = allRooms.filter(room => Math.floor(room.room / 100) === requestedRoom);
-    if (rooms.length === 0) return res.status(404).send('Floor does not exist.');
-  }
-  // Send the particular room
-  else {
-    rooms = await Room.find({room: requestedRoom});
-    if(!rooms) return res.status(404).send('Room not found.');
-  }
+    // Send all rooms of that floor as array
+    if (requestedRoom <= 10) {
+      const allRooms = await Room.find();
+      rooms = allRooms.filter(room => Math.floor(room.room / 100) === requestedRoom);
+      if (rooms.length === 0) return res.status(404).send('Floor does not exist.');
+    }
+    // Send the particular room
+    else {
+      rooms = await Room.findOne({room: requestedRoom});
+      if(!rooms) return res.status(404).send('Room not found.');
+    }
 
-  res.send(rooms);
+    res.send(rooms);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
 router.post('/initialize', async (req, res) => {
