@@ -8,7 +8,7 @@ interface Props {
 const FloorList = ({ changeFloor }: Props) => {
   const [floor, setFloor] = useState(1);
   return (
-    <Box borderRadius="lg" overflow="hidden" boxShadow="lg" p={3}>
+    <Box borderRadius="lg" overflow="hidden" p={3}>
       <List border="2px" borderColor="gray" borderRadius="10px">
         {Array(10)
           .fill(0)
