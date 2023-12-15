@@ -114,8 +114,37 @@ const missedParamsPut = (params) => {
   return missingParams;
 }
 
+const randomAssign = async (req, res) => {
+  try {
+
+    for (let i=1;i<=10;i++) {
+      for (let j=1;j<=56;j++) {
+        await Room.findOneAndUpdate(
+          { room: i*100+j },
+          { 
+            upload: Math.floor(Math.random() * (150 - 30 + 1)) + 30,
+            download: Math.floor(Math.random() * (150 - 30 + 1)) + 30,
+            ping: Math.floor(Math.random() * (120 - 10 + 1)) + 10,
+            lastSpeedTest: Date.now()
+          }
+        );
+      }
+    }
+
+    res.send('All rooms updated.');
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+}
+
 router.put('/:room', async (req, res) => {
   const { upload, download, ping } = req.body;
+
+  // Randomly assign values to all rooms
+  if (req.params.room === 'randomAssign') {
+    const returnMessage = randomAssign(req, res);
+    return returnMessage;
+  }
 
   // Check for missing parameters
   const missingParams = missedParamsPut(req.body);
