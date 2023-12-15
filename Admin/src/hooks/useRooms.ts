@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/apiClient";
+import { CanceledError } from "axios";
 
 export interface Room {
   room: number;
@@ -16,17 +17,23 @@ const useRooms = (floor: number) => {
 
   useEffect(() => {
     setIsLoading(true);
-    apiClient.get<Room[]>("/" + floorString)
+    const controller = new AbortController();
+    apiClient.get<Room[]>("/" + floorString, { signal: controller.signal })
       .then(({data}) => {
         setRooms(data);
         console.log(data);
       })
       .catch((error) => {
+        if (error instanceof CanceledError) return;
         setError(error.message);
       })
       .finally(() => {
         setIsLoading(false);
       });
+
+    return () => {
+      controller.abort();
+    }
   }, [floor])
 
   return { rooms, error, isLoading };
