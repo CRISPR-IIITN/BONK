@@ -1,5 +1,6 @@
 import useRooms, { Room } from "../hooks/useRooms";
 import { Box, Grid, Spinner, Text } from "@chakra-ui/react";
+import NetworkError from "./NetworkError";
 
 export type SelectedParam = "download" | "upload" | "ping";
 
@@ -87,8 +88,8 @@ const RoomGrid = ({ floor, selectedParam }: { floor: number, selectedParam: Sele
   return (
     <>
       {isLoading && <Spinner size='xl' mt={220} ml={550}/>}
-      {error && <Text color="red">{error}</Text>}
-      {!isLoading && layout.map((row, rowIndex) => (
+      {error && <NetworkError>{error}</NetworkError>}
+      {!isLoading && !error && layout.map((row, rowIndex) => (
         <Box  border="2px" borderColor="gray.200"
          borderRadius="md"
          p={4}

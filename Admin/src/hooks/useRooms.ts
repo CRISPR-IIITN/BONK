@@ -11,7 +11,7 @@ export interface Room {
 
 const useRooms = (floor: number) => {
   const [rooms, setRooms] = useState<Room[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const floorString = floor.toString();
 
