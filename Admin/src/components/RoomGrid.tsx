@@ -119,7 +119,7 @@ const RoomGrid = ({ floor, selectedParam }: { floor: number, selectedParam: Sele
     return `${paramValue} ms`;
   }
 
-  return (
+  const shadedCSS = "repeating-linear-gradient(45deg, #4A5568, #4A5568 2px, #CBD5E0 2px, #CBD5E0 4px)";  return (
     <>
       {isLoading && <Spinner size='xl' mt={220} ml={550}/>}
       {!isLoading && error && <NetworkError>{error}</NetworkError>}
@@ -164,7 +164,7 @@ const RoomGrid = ({ floor, selectedParam }: { floor: number, selectedParam: Sele
                   borderColor="gray.200"
                   borderRadius="md"
                   p={2}
-                  bg={"gray.500"}
+                  bg={shadedCSS}
                   key={cellIndex}
                 >
                 </Box>
