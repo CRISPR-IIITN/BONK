@@ -7,6 +7,7 @@ export interface Room {
   upload: number;
   download: number;
   ping: number;
+  lastSpeedTest: Date;
 }
 
 const useRooms = (floor: number) => {
