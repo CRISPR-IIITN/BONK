@@ -67,14 +67,14 @@ const RoomGrid = ({ floor, selectedParam }: { floor: number, selectedParam: Sele
       const r = Math.round(255 * ratio);
       const g = 128 + Math.round(127 * ratio);
       return `rgb(${r}, ${g}, 0)`;
-    } else if (ping <= 120) {
+    } else if (ping <= 100) {
       // interpolate between yellow and maroon 
       const ratio = (ping - 80) / 40;
       const r = 255 - Math.round(127 * ratio);
       const g = 255 - Math.round(127 * ratio);
       return `rgb(${r}, ${g}, 0)`;
     } else {
-      // return maroon for pings of 120 and above
+      // return maroon for pings of 100 and above
       return 'rgb(128, 0, 0)';
     }
   }
