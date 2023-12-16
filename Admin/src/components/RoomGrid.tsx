@@ -1,6 +1,7 @@
 import useRooms, { Room } from "../hooks/useRooms";
-import { Box, Grid, Spinner, Text } from "@chakra-ui/react";
+import { Box, Grid, Popover, PopoverArrow, PopoverBody, PopoverContent, PopoverHeader, PopoverTrigger, Spinner, Text } from "@chakra-ui/react";
 import NetworkError from "./NetworkError";
+import moment from "moment-timezone";
 
 export type SelectedParam = "download" | "upload" | "ping";
 
@@ -85,6 +86,38 @@ const RoomGrid = ({ floor, selectedParam }: { floor: number, selectedParam: Sele
     return getPingColor(paramValue);
   }
 
+  const formatDateToIST = (mongoDate: Date) => {
+    const date = moment(mongoDate);
+    const istDate = date.tz('Asia/Kolkata');
+    return istDate.format('HH:mm DD/MM/YY');
+  }
+
+  const getDateHover = (floor: number, cell: string) => {
+    const roomNumber = calculateRoomNumber(floor, cell);
+    let returnDate = new Date();
+    rooms.forEach((r: Room) => {
+      if (r.room === roomNumber) {
+        returnDate = r.lastSpeedTest;
+      }
+    });
+
+    const ISTDate = formatDateToIST(returnDate);
+
+    if (ISTDate) {
+      return `Last tested at ${ISTDate}`;
+    }
+    return "";
+  }
+
+  const getSpeedHover = (floor: number, cell: string) => {
+    const roomNumber = calculateRoomNumber(floor, cell);
+    const paramValue = getParamValue(roomNumber);
+
+    if (selectedParam !== "ping")
+      return `${paramValue} Mbps`;
+    return `${paramValue} ms`;
+  }
+
   return (
     <>
       {isLoading && <Spinner size='xl' mt={220} ml={550}/>}
@@ -99,16 +132,42 @@ const RoomGrid = ({ floor, selectedParam }: { floor: number, selectedParam: Sele
           gap={2}
           >
             {row.map((cell, cellIndex) => (
-              <Box
-                border="1px"
-                borderColor="gray.200"
-                borderRadius="md"
-                p={2}
-                bg={cell === "g" ? "gray.500" : getRoomColor(floor, cell)}
-                key={cellIndex}
-              >
-                <Text >{cell !== "g" ?  calculateRoomNumber(floor, cell) : ""}</Text>
-              </Box>
+              cell !== "g" ? (
+                <Popover trigger="hover" key={cellIndex}>
+                  <PopoverTrigger>
+                    <Box
+                      border="1px"
+                      borderColor="gray.200"
+                      borderRadius="md"
+                      p={2}
+                      bg={getRoomColor(floor, cell)}
+                      key={cellIndex}
+                    >
+                      <Text >{calculateRoomNumber(floor, cell)}</Text>
+                    </Box>
+                  </PopoverTrigger>
+                  <PopoverContent maxWidth={"200px"} bg={"black"}>
+                    <PopoverArrow bg={"black"}/>
+                    <PopoverHeader>
+                      <Text>{"Room " + calculateRoomNumber(floor, cell)}</Text>
+                    </PopoverHeader>
+                    <PopoverBody>
+                      <Text>{getSpeedHover(floor, cell)}</Text>
+                      <Text>{getDateHover(floor, cell)}</Text>
+                    </PopoverBody>
+                  </PopoverContent>
+                </Popover>
+              ) : (
+                <Box
+                  border="1px"
+                  borderColor="gray.200"
+                  borderRadius="md"
+                  p={2}
+                  bg={"gray.500"}
+                  key={cellIndex}
+                >
+                </Box>
+              )
             ))}
           </Grid>
         </Box>
