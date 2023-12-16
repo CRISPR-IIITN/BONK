@@ -37,15 +37,16 @@ const RoomGrid = ({ floor, selectedParam }: { floor: number, selectedParam: Sele
 
   const getSpeedColor = (speed: number) => {
     if (speed <= 40){
+      // return maroon for speeds of 40 and below
       return "#800000"
     } else if (speed <= 80) {
-      // interpolate between maroon (hex #800000) and yellow (hex #FFFF00)
+      // interpolate between maroon and yellow
       const ratio = speed / 50;
       const r = Math.round(128 * (1 - ratio) + 255 * ratio);
       const g = Math.round(ratio * 255);
       return `rgb(${r}, ${g}, 0)`;
     } else if (speed <= 120) {
-      // interpolate between yellow (hex #FFFF00) and green (hex #008000)
+      // interpolate between yellow and green
       const ratio = (speed - 50) / 70;
       const r = Math.round(255 * (1 - ratio));
       const g = Math.round(255 * ratio + 128 * (1 - ratio));
@@ -121,7 +122,7 @@ const RoomGrid = ({ floor, selectedParam }: { floor: number, selectedParam: Sele
   return (
     <>
       {isLoading && <Spinner size='xl' mt={220} ml={550}/>}
-      {error && <NetworkError>{error}</NetworkError>}
+      {!isLoading && error && <NetworkError>{error}</NetworkError>}
       {!isLoading && !error && layout.map((row, rowIndex) => (
         <Box  border="2px" borderColor="gray.200"
          borderRadius="md"
