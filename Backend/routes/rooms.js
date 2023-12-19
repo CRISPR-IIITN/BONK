@@ -12,7 +12,7 @@ const roomSchema = new mongoose.Schema({
 
 const Room = mongoose.model('Room', roomSchema);
 
-router.get('/', async (req, res) => {
+router.get('/', async (_, res) => {
   try {
       const rooms = await Room.find();
       res.send(rooms);
@@ -46,7 +46,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/initialize', async (req, res) => {
+router.post('/initialize', async (_, res) => {
   for (let i=1;i<=10;i++) {
     for (let j=1;j<=56;j++) {
       try {
@@ -125,7 +125,7 @@ const missedParamsPut = (params) => {
   return missingParams;
 }
 
-const randomAssign = async (req, res) => {
+const randomAssign = async (_, res) => {
   try {
 
     for (let i=1;i<=10;i++) {

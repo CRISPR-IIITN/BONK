@@ -14,7 +14,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/hostel')
 // for testing purpose only
 // allow CORS, so that backend and frontend could be put on different servers
 // basically to run react app and be able to test with this api
-app.use(function(req, res, next) {
+app.use(function(_, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:5173"); // update to match the domain you will make the request from
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
