@@ -1,4 +1,4 @@
-import useRooms, { Room } from "../hooks/useRooms";
+import useRooms, { Room } from "../../hooks/useRooms";
 import {
   Box,
   Grid,
@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import NetworkError from "./NetworkError";
 import moment from "moment-timezone";
-import { layout } from "../assets/layout";
+import { layout } from "../../assets/layout";
 
 export type SelectedParam = "download" | "upload" | "ping";
 
