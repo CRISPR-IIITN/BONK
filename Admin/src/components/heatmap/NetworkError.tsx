@@ -1,5 +1,5 @@
 import { Box, Button, HStack, Image, Stack, Text } from "@chakra-ui/react"
-import errorImage from "../assets/error404.webp"
+import errorImage from "../../assets/error404.webp"
 import { useState } from "react";
 
 const NetworkError = ({ children }: {children: string}) => {

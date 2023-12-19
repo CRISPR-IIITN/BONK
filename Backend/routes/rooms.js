@@ -1,12 +1,8 @@
 const express = require('express');
 const router = express.Router();
-
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/hostel')
-    .then(() => console.log('Connected to MongoDB...'))
-    .catch(err => console.error('Could not connect to MongoDB...', err));
 
-const schema = new mongoose.Schema({
+const roomSchema = new mongoose.Schema({
     room: Number,
     download: Number,
     upload: Number,
@@ -14,9 +10,9 @@ const schema = new mongoose.Schema({
     lastSpeedTest: { type: Date, default: Date.now } // Gets updated each time
 })
 
-const Room = mongoose.model('Room', schema);
+const Room = mongoose.model('Room', roomSchema);
 
-router.get('/', async (req, res) => {
+router.get('/', async (_, res) => {
   try {
       const rooms = await Room.find();
       res.send(rooms);
@@ -50,7 +46,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/initialize', async (req, res) => {
+router.post('/initialize', async (_, res) => {
   for (let i=1;i<=10;i++) {
     for (let j=1;j<=56;j++) {
       try {
@@ -129,7 +125,7 @@ const missedParamsPut = (params) => {
   return missingParams;
 }
 
-const randomAssign = async (req, res) => {
+const randomAssign = async (_, res) => {
   try {
 
     for (let i=1;i<=10;i++) {
