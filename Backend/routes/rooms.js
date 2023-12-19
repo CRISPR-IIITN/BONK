@@ -1,12 +1,8 @@
 const express = require('express');
 const router = express.Router();
-
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/hostel')
-    .then(() => console.log('Connected to MongoDB...'))
-    .catch(err => console.error('Could not connect to MongoDB...', err));
 
-const schema = new mongoose.Schema({
+const roomSchema = new mongoose.Schema({
     room: Number,
     download: Number,
     upload: Number,
@@ -14,7 +10,7 @@ const schema = new mongoose.Schema({
     lastSpeedTest: { type: Date, default: Date.now } // Gets updated each time
 })
 
-const Room = mongoose.model('Room', schema);
+const Room = mongoose.model('Room', roomSchema);
 
 router.get('/', async (req, res) => {
   try {
