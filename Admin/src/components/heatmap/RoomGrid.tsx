@@ -24,7 +24,7 @@ const RoomGrid = ({
   floor: number;
   selectedParam: SelectedParam;
 }) => {
-  const { rooms, error, isLoading } = useRooms(floor);
+  const { data: rooms, error, isLoading } = useRooms(floor);
 
   const getParamValue = (room: number) => {
     let returnValue = 0;
@@ -107,7 +107,7 @@ const RoomGrid = ({
   const getDateHover = (floor: number, cell: string) => {
     const roomNumber = calculateRoomNumber(floor, cell);
     let returnDate = new Date();
-    rooms.forEach((r: Room) => {
+    rooms.forEach((r: any) => {
       if (r.room === roomNumber) {
         returnDate = r.lastSpeedTest;
       }
