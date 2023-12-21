@@ -9,7 +9,7 @@ def show_graph():
         timestamps = []
         download_speeds = []
         upload_speeds = []
-        with open("speed_data.txt", "r") as file:
+        with open("D:\\Code\\CRISPR\\bonk\\desk_application\\speed_data.txt", "r") as file:
             for line in file:
                 data = line.strip().split(" | ")
                 timestamp = datetime.strptime(data[0], "%Y-%m-%d %H:%M:%S")
