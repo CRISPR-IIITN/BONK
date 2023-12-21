@@ -18,10 +18,14 @@ const userSchema = new mongoose.Schema({
   isAdmin: {
     type: Boolean,
     default: false
+  },
+  isSuperUser: {
+    type: Boolean,
+    default: false
   }
 });
 
-userSchema.pre('save', (next) => {
+userSchema.pre('save', function(next){
   if (!this.isModified('password')) {
     return next();
   }
@@ -63,7 +67,8 @@ router.post('/', async (req, res) => {
   const user = new User({
     username: req.body.username,
     password: req.body.password,
-    isAdmin: req.body.isAdmin
+    isAdmin: req.body.isAdmin,
+    isSuperUser: req.body.isSuperUser
   });
 
   try {
@@ -71,6 +76,24 @@ router.post('/', async (req, res) => {
     res.status(201).send( newUser );
   } catch (err) {
     res.status(400).send( err.message );
+  }
+});
+
+router.post('/login', async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.body.username });
+    if (!user) {
+      return res.status(404).send('Cannot find user');
+    }
+
+    const validPassword = await bcrypt.compare(req.body.password, user.password);
+    if (!validPassword) {
+      return res.status(403).send('Incorrect password');
+    }
+
+    res.send(user);
+  } catch (err) {
+    res.status(500).send('Error logging in, try again!');
   }
 });
 
@@ -95,6 +118,11 @@ router.put('/:id', async (req, res) => {
     // Update the admin status if it has changed
     if (req.body.isAdmin !== undefined && req.body.isAdmin !== user.isAdmin) {
       user.isAdmin = req.body.isAdmin;
+    }
+
+    // Update the superuser status if it has changed
+    if (req.body.isSuperUser !== undefined && req.body.isSuperUser !== user.isSuperUser) {
+      user.isSuperUser = req.body.isSuperUser;
     }
 
     // Update the password if a new password has been provided

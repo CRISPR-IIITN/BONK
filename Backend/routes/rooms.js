@@ -127,7 +127,6 @@ const missedParamsPut = (params) => {
 
 const randomAssign = async (_, res) => {
   try {
-
     for (let i=1;i<=10;i++) {
       for (let j=1;j<=56;j++) {
         await Room.findOneAndUpdate(

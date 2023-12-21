@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import apiClient from "../services/apiClient";
-import { CanceledError } from "axios";
+import useData from "./useData";
 
 export interface Room {
   room: number;
@@ -11,33 +9,8 @@ export interface Room {
 }
 
 const useRooms = (floor: number) => {
-  const [rooms, setRooms] = useState<Room[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const floorString = floor.toString();
-
-  useEffect(() => {
-    setIsLoading(true);
-    const controller = new AbortController();
-    apiClient.get<Room[]>("/" + floorString, { signal: controller.signal })
-      .then(({data}) => {
-        setRooms(data);
-        console.log(data);
-      })
-      .catch((error) => {
-        if (error instanceof CanceledError) return;
-        setError(error.message);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-
-    return () => {
-      controller.abort();
-    }
-  }, [floor])
-
-  return { rooms, error, isLoading };
+  return useData<Room>(`/rooms/${floorString}`);
 }
 
 export default useRooms;
