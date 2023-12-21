@@ -9,11 +9,14 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  Text
+  Text,
 } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useLogin, useSignup } from "../hooks/useAuth";
+import { useState } from "react";
+import MessageModal from "../components/login/MessageModal";
 
 const noSpacesRegex = /^[^\s]*$/;
 const loginSchema = z.object({
@@ -51,11 +54,15 @@ type loginInterface = z.infer<typeof loginSchema>;
 type signupInterface = z.infer<typeof signupSchema>;
 
 const Login = () => {
+  const [signupUsername, setSignupUsername] = useState<string>("");
+  const [signupPassword, setSignupPassword] = useState<string>("");
+  const [loginUsername, setLoginUsername] = useState<string>("");
+  const [loginPassword, setLoginPassword] = useState<string>("");
+
   const {
     register: loginRegister,
     handleSubmit: loginHandler,
-    formState: { errors: loginErrors },
-    reset: loginReset,
+    formState: { errors: loginErrors }
   } = useForm<loginInterface>({ resolver: zodResolver(loginSchema) });
 
   const {
@@ -66,14 +73,26 @@ const Login = () => {
   } = useForm<signupInterface>({ resolver: zodResolver(signupSchema) });
 
   const handleLogin = (data: any) => {
-    console.log(data);
-    loginReset();
+    setLoginUsername(data.username);
+    setLoginPassword(data.password);
   };
 
   const handleSignup = (data: any) => {
-    console.log(data);
+    setSignupUsername(data.username);
+    setSignupPassword(data.password);
     signupReset();
   };
+
+  const {message: signupMessage} = useSignup({ username: signupUsername, password: signupPassword }, [
+    signupUsername,
+    signupPassword
+  ]);
+
+  const {message: loginMessage} = useLogin({ username: loginUsername, password: loginPassword }, [
+    loginUsername,
+    loginPassword
+  ]);
+
   return (
     <Box
       p={4}
@@ -145,6 +164,7 @@ const Login = () => {
               <Button colorScheme='blue' mt={4} type='submit'>
                 Login
               </Button>
+              {loginMessage && <MessageModal>{loginMessage}</MessageModal>}
             </Box>
           </TabPanel>
           <TabPanel
@@ -202,6 +222,7 @@ const Login = () => {
               <Button colorScheme='blue' mt={4} type='submit'>
                 Signup
               </Button>
+              {signupMessage && <MessageModal>{signupMessage}</MessageModal>}
             </Box>
           </TabPanel>
         </TabPanels>
