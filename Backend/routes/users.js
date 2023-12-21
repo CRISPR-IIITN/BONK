@@ -79,6 +79,24 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.post('/login', async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.body.username });
+    if (!user) {
+      return res.status(404).send('Cannot find user');
+    }
+
+    const validPassword = await bcrypt.compare(req.body.password, user.password);
+    if (!validPassword) {
+      return res.status(403).send('Incorrect password');
+    }
+
+    res.send(user);
+  } catch (err) {
+    res.status(500).send('Error logging in, try again!');
+  }
+});
+
 router.put('/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
