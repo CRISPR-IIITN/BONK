@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useLogin from "../../hooks/useLogin";
+import Cookies from "js-cookie";
 
 const noSpacesRegex = /^[^\s]*$/;
 const Schema = z.object({
@@ -27,7 +28,8 @@ const Schema = z.object({
 
 type Interface = z.infer<typeof Schema>;
 
-const LoginForm = () => {
+const LoginForm = ({ onLogin }: { onLogin: () => void }) => {
+
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -50,7 +52,7 @@ const LoginForm = () => {
     }, 2000);
   };
 
-  const attempt = useLogin({ username, password }, responseHandler, [
+  const attempt = useLogin({ username, password }, onLogin, responseHandler, [
     username,
     password,
   ]);

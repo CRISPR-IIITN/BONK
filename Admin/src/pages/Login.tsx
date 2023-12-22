@@ -2,7 +2,7 @@ import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import LoginForm from "../components/login/LoginForm";
 import SignupForm from "../components/login/SignupForm";
 
-const Login = () => {
+const Login = ({ onLogin }: { onLogin: () => void }) => {
   return (
     <Box
       p={4}
@@ -40,7 +40,7 @@ const Login = () => {
             borderColor='gray.600'
             color='black'
           >
-            <LoginForm />
+            <LoginForm onLogin={onLogin}/>
           </TabPanel>
           <TabPanel
             border='1px'
