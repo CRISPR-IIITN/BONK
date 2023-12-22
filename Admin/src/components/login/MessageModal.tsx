@@ -6,28 +6,22 @@ import {
   ModalOverlay,
   Text,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
-const MessageModal = ({ children }: { children: string }) => {
-  const [isOpen, setIsOpen] = useState(true);
+interface Props {
+  children: string;
+  isSuccess: boolean;
+  isOpen: boolean;
+}
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsOpen(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
+const MessageModal = ({ children, isSuccess, isOpen }: Props) => {
   return (
     <Modal isOpen={isOpen} onClose={() => {}} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalBody justifyContent='center'>
           <HStack>
-            {(children === "Signed up successfully!" ||
-            children === "Logged in successfully!") ? (
+            {isSuccess ? (
               <FaCheckCircle color='green' />
             ) : (
               <FaTimesCircle color='red' />
