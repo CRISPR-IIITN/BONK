@@ -83,12 +83,12 @@ router.post('/login', async (req, res) => {
   try {
     const user = await User.findOne({ username: req.body.username });
     if (!user) {
-      return res.status(404).send('Cannot find user');
+      return res.status(404).send('Incorrect username or password');
     }
 
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword) {
-      return res.status(403).send('Incorrect password');
+      return res.status(403).send('Incorrect username or password');
     }
 
     res.send(user);
