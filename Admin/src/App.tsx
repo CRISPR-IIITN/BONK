@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Heatmap from "./pages/Heatmap";
 import Login from "./pages/Login";
 import Cookies from "js-cookie";
-import { set } from "zod";
 
 export interface User {
   _id: string;
