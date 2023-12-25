@@ -10,7 +10,7 @@ export interface Room {
 
 const useRooms = (floor: number) => {
   const floorString = floor.toString();
-  return useData<Room>(`/rooms/${floorString}`);
+  return useData<Room>(`/rooms/${floorString}`, [floor]);
 }
 
 export default useRooms;

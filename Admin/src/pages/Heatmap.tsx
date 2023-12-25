@@ -9,9 +9,11 @@ import { User } from "../App";
 interface Props {
   onLogout: () => void;
   user: User;
+  page: number;
+  setPage: (page: number) => void;
 }
 
-function Heatmap({ onLogout, user }: Props) {
+function Heatmap({ onLogout, user, page, setPage }: Props) {
   const [floorNumber, setFloor] = useState<number>(1);
   const [selectedParam, setSelectedParam] = useState<SelectedParam>("download");
   const changeFloor = (floor: number) => {
@@ -28,7 +30,7 @@ function Heatmap({ onLogout, user }: Props) {
         }}
       >
         <GridItem area='nav' bgColor='#0d111a'>
-          <NavBar isAdmin={user.isAdmin} onLogout={onLogout} />
+          <NavBar isAdmin={user.isAdmin} page={page} setPage={setPage} onLogout={onLogout} />
         </GridItem>
         <GridItem area='aside'>
           <FloorList changeFloor={changeFloor} />

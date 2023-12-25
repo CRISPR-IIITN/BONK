@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Heatmap from "./pages/Heatmap";
 import Login from "./pages/Login";
 import Cookies from "js-cookie";
+import Home from "./pages/Home";
 
 export interface User {
   _id: string;
@@ -32,7 +33,7 @@ function App() {
   return (
     <>
       {isLoggedIn ? (
-        <Heatmap user={user} onLogout={() => setIsLoggedIn(false)} />
+        <Home user={user} onLogout={() => setIsLoggedIn(false)} />
       ) : (
         <Login onLogin={() => setIsLoggedIn(true)}/>
       )}

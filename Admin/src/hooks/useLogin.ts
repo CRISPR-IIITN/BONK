@@ -20,7 +20,7 @@ const useLogin = (body: User, onLogin:() => void, onServerResponse ?: () => void
     if (body.username && body.password){
       apiClient.post("/users/login", {...body})
       .then((user) => {
-        Cookies.set("user_cookie", JSON.stringify(user), { expires: 2 });
+        Cookies.set("user_cookie", JSON.stringify(user.data), { expires: 2 });
         setMessage({success: true, message: "Logged in successfully!"});
         onLogin();
       })
