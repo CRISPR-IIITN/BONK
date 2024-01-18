@@ -23,7 +23,7 @@ app.use((_, res, next) => {
 
 app.use(express.json());
 app.use(helmet());
-app.use(morgan('tiny'));
+app.use(morgan('dev'));
 app.use('/api/rooms', rooms);
 app.use('/api/users', users);
 

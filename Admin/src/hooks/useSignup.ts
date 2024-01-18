@@ -13,10 +13,11 @@ interface Message {
 
 export const useSignup = (body: User, onServerResponse?: () => void, deps ?: any[]) => {
   const [message, setMessage] = useState<Message>({success: false, message: ""});
-  
+  const controller = new AbortController();
+
   useEffect(() => {
     if (body.username && body.password){
-      apiClient.post("/users/", {...body})
+      apiClient.post("/users/", {signal: controller.signal, ...body})
       .then((_) => {
         setMessage({success: true, message: "Signed up successfully!"});
         if (onServerResponse) onServerResponse();
@@ -26,6 +27,7 @@ export const useSignup = (body: User, onServerResponse?: () => void, deps ?: any
         if (onServerResponse) onServerResponse();
       });
     }
+    return () => controller.abort();
   }, deps ? [...deps] : []);
 
   return message;
