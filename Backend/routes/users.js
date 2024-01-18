@@ -83,7 +83,7 @@ router.post('/login', async (req, res) => {
   try {
     const user = await User.findOne({ username: req.body.username });
     if (!user) {
-      return res.status(404).send('Incorrect username or password');
+      return res.status(403).send('Incorrect username or password');
     }
 
     const validPassword = await bcrypt.compare(req.body.password, user.password);
@@ -102,13 +102,7 @@ router.put('/:id', async (req, res) => {
     const user = await User.findById(req.params.id);
     if (!user) {
       return res.status(404).send( 'Cannot find user' );
-    }
-
-    // Check if the provided password is correct
-    const validPassword = await bcrypt.compare(req.body.password, user.password);
-    if (!validPassword) {
-      return res.status(400).send( 'Invalid password' );
-    }
+    }    
 
     // Update the username if it has changed
     if (req.body.username && req.body.username !== user.username) {
@@ -127,6 +121,10 @@ router.put('/:id', async (req, res) => {
 
     // Update the password if a new password has been provided
     if (req.body.newPassword) {
+      const validPassword = await bcrypt.compare(req.body.password, user.password);
+      if (!validPassword) {
+        return res.status(400).send( 'Invalid password' );
+      }
       user.password = req.body.newPassword;
       user.markModified('password');
     }

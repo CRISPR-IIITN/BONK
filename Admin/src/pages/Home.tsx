@@ -17,7 +17,12 @@ const Home = ({ user, onLogout }: { user: User; onLogout: () => void }) => {
     );
   else if (currentPage === 2)
     return (
-      <Admin page={currentPage} setPage={setCurrentPage} onLogout={onLogout} />
+      <Admin
+        user={user}
+        page={currentPage}
+        setPage={setCurrentPage}
+        onLogout={onLogout}
+      />
     );
   else return <></>;
 };

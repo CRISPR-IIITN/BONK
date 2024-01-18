@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Heatmap from "./pages/Heatmap";
 import Login from "./pages/Login";
 import Cookies from "js-cookie";
 import Home from "./pages/Home";
